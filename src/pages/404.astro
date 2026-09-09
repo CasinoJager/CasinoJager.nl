@@ -1,9 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Lockup from '../components/Lockup.astro';
 ---
 
 <Layout title="404 — CasinoJager.nl" noindex>
+  {/* Here the heading belongs to the error, so the lockup is a plain masthead
+      that doubles as the way back. Dimmed, so the h1 still leads. */}
+  <Lockup href="/" class="masthead" />
   <h1>404 — pagina niet gevonden</h1>
   <p>Deze pagina bestaat niet. Ga terug naar de <a href="/">homepage</a>.</p>
   <p>Vragen? <a href="mailto:info@casinojager.nl">info@casinojager.nl</a></p>
 </Layout>
+
+<style>
+  /* :global — see index.astro. The custom properties inherit into the lockup. */
+  :global(.masthead) {
+    margin-bottom: 2.25rem;
+    --cj-lockup-color: var(--text-dim);
+    --cj-lockup-color-hover: var(--text-strong);
+  }
+</style>

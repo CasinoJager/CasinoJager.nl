@@ -1,9 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Lockup from '../components/Lockup.astro';
 ---
 
 <Layout title="CasinoJager.nl" description="CasinoJager.nl is in aanbouw.">
-  <h1>CasinoJager.nl</h1>
+  {/* On the homepage the site name is the page's heading, so the lockup is the h1. */}
+  <Lockup as="h1" class="masthead" />
   <p>Deze site is in aanbouw. Binnenkort online.</p>
   <p>Vragen? <a href="mailto:info@casinojager.nl">info@casinojager.nl</a></p>
 </Layout>
+
+<style>
+  /* :global — Astro stamps a component's root with the component's own scope,
+     not the page's, so a scoped selector here would never match. */
+  :global(.masthead) {
+    /* Larger here than on 404: this lockup is the page, not a header above it. */
+    --cj-lockup-size: 2.25rem;
+    margin-bottom: 1.75rem;
+  }
+</style>

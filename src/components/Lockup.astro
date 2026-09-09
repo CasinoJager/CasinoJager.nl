@@ -1,0 +1,72 @@
+---
+// The mark paired with the site name — the two always travel together.
+//
+// The whole lockup scales from one knob, --cj-lockup-size, which sets the mark
+// height. The name and the gap are expressed in em against it, so the tested
+// proportions (mark 2rem : name 1.5rem : gap 0.75rem) hold at any size instead
+// of drifting apart when someone changes one value. Colour is inherited, so a
+// caller can dim or brighten mark and name together in one declaration.
+
+import Logo from './Logo.astro';
+
+interface Props {
+  /** Element to render as. The homepage uses h1; elsewhere it is a masthead. */
+  as?: 'h1' | 'div' | 'p';
+  /** When set, the whole lockup becomes a link. */
+  href?: string;
+  class?: string;
+}
+
+const { as: Tag = 'div', href, class: className } = Astro.props;
+---
+
+<Tag class:list={['lockup', className]}>
+  {
+    href ? (
+      <a class="lockup__inner lockup__inner--link" href={href}>
+        <Logo size="1em" />
+        <span class="lockup__name">CasinoJager.nl</span>
+      </a>
+    ) : (
+      <span class="lockup__inner">
+        <Logo size="1em" />
+        <span class="lockup__name">CasinoJager.nl</span>
+      </span>
+    )
+  }
+</Tag>
+
+<style>
+  .lockup {
+    /* No margin reset here on purpose: a scoped rule would score (0,2,0) and
+       silently outrank a page's own .masthead spacing. Pages own the spacing. */
+    font-weight: inherit;
+  }
+  .lockup__inner {
+    /* Block-level, so no line box adds stray leading under the lockup;
+       fit-content keeps a linked lockup's hit area hugging the content. */
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    /* Everything below is relative to this. */
+    font-size: var(--cj-lockup-size, 2rem);
+    gap: 0.375em;
+    color: var(--cj-lockup-color, var(--text-strong));
+  }
+  .lockup__name {
+    font-size: 0.75em;
+    font-weight: 600;
+    /* Wordmarks want tighter tracking than body copy. */
+    letter-spacing: -0.015em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .lockup__inner--link {
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .lockup__inner--link:hover,
+  .lockup__inner--link:focus-visible {
+    color: var(--cj-lockup-color-hover, var(--text-strong));
+  }
+</style>
